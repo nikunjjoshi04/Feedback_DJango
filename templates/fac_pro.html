@@ -1,0 +1,344 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>L.J. Institute</title>
+  <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="/c_admin/adminc">Start Bootstrap</a> -->
+      <a class="navbar-brand" href="/c_admin/adminc">
+        <img src="{% static 'imgs/LJICA.png' %}" height="30"> 
+        L J Institute of Computer Applications
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>  
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3" style="text-transform: capitalize">{{std.first_name}}
+      <small style="text-transform: capitalize">{{std.last_name}}</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/c_admin/adminc">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Faculty Profile</li>
+    </ol>
+
+    <form action="/c_admin/update_fac" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}        
+      <div class="form-group">
+        <div class="col-md-2 mx-auto my-2">
+          <div class="form-label-group">
+            {% if fac.img == "None" %}
+              <a href="#"><img class="card-img-top" height="200" width="600" src="http://placehold.it/700x400" alt="img"></a>
+              <input id="img" type="file" value="None.jpg" name="myfile">
+            {% else %}
+              <a href="#"><img class="card-img-top" height="200" width="600" src="{{fac.img.url}}" alt="img"></a>
+              <input id="img" type="file" value="None.jpg" name="myfile">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="form-label-group">
+              <label for="firstName" style="text-transform: capitalize"><b>{{fac.first_name}}</b></label>
+              <input type="text" id="firstName" name="firstname" class="form-control" placeholder="First name" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-label-group">
+              <label for="lastName" style="text-transform: capitalize"><b>{{fac.last_name}}</b></label>
+              <input type="text" id="lastName" name="lastname" class="form-control" placeholder="Last name" >
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group">
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="form-label-group">
+                <label><b>{{fac.email}}</b></label>
+                <input type="text" id="inputEmail" name="email" class="form-control" placeholder="Email address" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-label-group">
+              <label><b>{{fac.mobile}}</b></label>
+              <input type="text" id="inputMobile" name="mobile" class="form-control" placeholder="Mobile Number" >
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Update_Profile">Update_Profile</button>
+      </div>
+    </form>
+      <hr>
+
+      <!-- Facultys Allocations -->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-chart-area"></i>
+          Facultys Allocations</div>
+        <div class="card-body">
+          <form action="/c_admin/pro_fac_allo" method="POST">
+            {% csrf_token %}        
+            <div class="form-group">
+              <div class="form-row">
+                  <div class="col-md-2">
+                      <div class="form-group">
+                          <label for="sel1"><b>Select Streme</b></label>
+                          <select class="form-control" id="strem_in" url_str="/c_admin/sem_ajax" name="stream">
+                            <option selected>Select Sream</option>
+                            {% for s in stream %}
+                              <option data_id="{{s.id}}" value="{{s.id}}">{{s.stream_name}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel2"><b>Select Semester</b></label>
+                        <select class="form-control" id="sem_out" url_str="/c_admin/div_ajax" url_sub="/c_admin/sub_ajax"  name="sem">
+                          <option selected>Select Semester</option>  
+                        </select>  
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel3"><b>Select Divition</b></label>
+                        <select class="form-control" id="div_out" name="div">
+                          <option selected>Select Divition</option>                          
+                        </select>  
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel3"><b>Select Designation</b></label>
+                        <select class="form-control" id="des_out" name="post">
+                          <option selected>Select Designation</option>
+                            {% for s in post %}
+                              <option data_id="{{s.id}}" value="{{s.id}}" >{{s.post_name}}</option>
+                            {% endfor %}
+                        </select>  
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="sel3"><b>Select Subject</b></label>
+                        <select class="form-control" id="sub_out" name="sub">
+                          <option selected>Select Subject</option>                          
+                        </select>  
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group">
+              <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Allocat Faculty">Allocat Faculty</button>
+            </div>      
+          </form>
+          <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+        </div>
+        <div class="card-footer small text-muted">Allocations Of Facultys</div>
+      </div>
+
+      <hr>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Faculty Name</th>
+                <th>Streme</th>
+                <th>Semester</th>
+                <th>Divition</th>                  
+                <th>Designation</th>
+                <th>Subject</th>
+                <th>Action</th>
+              </tr>              
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Faculty Name</th>
+                <th>Streme</th>
+                <th>Semester</th>
+                <th>Divition</th>                  
+                <th>Designation</th>
+                <th>Subject</th>
+                <th>Action</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              
+              {% for f in fac_m %}
+                <tr>                  
+                  <td>{{f.user}}</td>
+                  <td>{{f.stream}}</td>
+                  <td>{{f.sem}}</td>
+                  <td>{{f.div}}</td>                  
+                  <td>{{f.post}}</td>                  
+                  <td>{{f.subject}}</td>                  
+                  <td>
+                    <a type="button" class="btn bg-primary" href="/c_admin/delete_fac_allo/{{f.id}}" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                    <!-- <a type="button" class="btn bg-primary ml-3" href="std_pro/{{s.id}}">Edit</a> -->
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>      
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; L J Institute of Computer Applications 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+</body>
+
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+      $('#strem_in').change(function(){
+        var url = $(this).attr('url_str');
+        var stream = $('option:selected', this).attr('data_id');	
+        //console.info(stream)
+       // console.info(url)		
+        
+        $.ajax({
+          url:url,
+          data:{
+            stream:stream
+          },
+          success:function(responce){					
+            var data = $.parseJSON(responce);
+            string = "";
+            for(var i=0;i<data.length;i++)
+            {
+              if(i == 0)
+              {
+                string = string +"<option>"+ "Select Semester" +"</option>";		
+              }
+              string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";							
+              //console.info(data[i]['fields']["sem_name"])
+            }
+            $('#sem_out').html(string)
+          }
+        });
+      });
+  
+      $('#sem_out').change(function(){
+        var url = $(this).attr('url_str');
+        var sem = $('option:selected', this).attr('key');		
+        
+        //console.info(url);
+        //console.info(sem)
+        
+        $.ajax({
+          url:url,
+          data:{
+            sem:sem
+          },
+          success:function(responce){
+            var data = $.parseJSON(responce);
+            string = "";
+            for(var i=0;i<data.length;i++)
+            {
+              if(i == 0)
+              {
+                string = string +"<option>"+ "Select Divition" +"</option>";		
+              }
+              string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+            }
+            $('#div_out').html(string)
+          }
+        });
+      });
+
+      $('#sem_out').change(function(){
+        var url = $(this).attr('url_sub');
+        var sem = $('option:selected', this).attr('key');
+        //console.info(url);
+        //console.info(sem);
+        $.ajax({ 
+          url:url,
+          data:{
+            sem:sem
+          },
+          success:function(responce){
+            var data = $.parseJSON(responce);
+            string = "";
+            for(var i=0;i<data.length;i++)
+            {
+              if(i == 0)
+              {
+                string = string +"<option>"+ "Select Subject" +"</option>";		
+              }
+              string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sub_name"] +"</option>";
+            }
+            $('#sub_out').html(string)
+          }
+        });
+      });
+  </script>
+
+</html>

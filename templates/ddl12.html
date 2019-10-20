@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DropDownList</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Hello Nikka...!</h1><br>
+	<hr>
+	
+	<h1>{{me.name}}</h1>
+	<h1>{{me.mo}}</h1>
+	{{me.mo}}
+	
+	<hr>
+	<form method="POST" id="reg">
+		{% csrf_token %}
+		<input type="text" name="n1" id="n1">
+		<input type="text" name="n2" id="n2">
+		<select id="strem_in" url_str="sem_ajax">
+			<option selected>Select Stream</option>
+			{% for s in stream %}
+				<option data_id="{{s.id}}">{{s.stream_name}}</option>
+			{% endfor %}
+		</select>
+
+		<select id="sem_out" url_str="div_ajax">
+			<option selected>Select Semester</option>
+		</select >
+		<select id="div_out">
+			<option selected>Select Semester</option>
+		</select >
+		<br>
+	</form>
+</body>
+{% block js %}
+	<script>
+		$('#strem_in').change(function(){
+			var url = $(this).attr('url_str');
+			var stream = $('option:selected', this).attr('data_id');
+			console.info(stream);
+			console.info(url);
+			
+			$.ajax({
+				url:url,
+				data:{
+					stream:stream
+				},
+				success:function(responce){
+					//alert("responce :- "+stream);
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Semester" +"</option>";		
+						}
+						string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";
+						console.info(data[i]['fields']["sem_name"]);	
+					}
+					//alert("/n 2:- "+responce);
+					$('#sem_out').html(string)
+				}
+			});
+		});
+
+		$('#sem_out').change(function(){
+			var url = $(this).attr('url_str');
+			var sem = $('option:selected', this).attr('key');
+			console.info(sem);
+
+			$.ajax({
+				url:url,
+				data:{
+					sem:sem
+				},
+				success:function(responce){
+					//alert("responce :- "+stream);
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Semester" +"</option>";		
+						}
+						string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+						console.info(data[i]['fields']["div_name"]);	
+					}
+					//alert("/n 2:- "+responce);
+					$('#div_out').html(string)
+				}
+			});
+
+		});
+	</script>
+{% endblock js %}
+</html>

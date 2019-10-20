@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin - Register</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-dark">
+
+  <div class="container">
+    <!-- <div class="card card-register mx-auto my-2"> -->
+    <div class="card mx-auto my-4 " style="width: 70rem;" >
+      <b-card no-body>
+        <b-tabs card>
+          <b-tab title="Tab 1" active>
+            <b-card-text>Tab Contents 1</b-card-text>
+          </b-tab>
+          <b-tab title="Tab 2">
+            <b-card-text>Tab Contents 2</b-card-text>
+          </b-tab>
+        </b-tabs>
+      </b-card>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+</body>
+
+{% block js %}
+	<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+		$('#strem_in').change(function(){
+			var url = $(this).attr('url_str');
+      var stream = $('option:selected', this).attr('data_id');	
+      console.info(stream)
+      console.info(url)		
+			
+			$.ajax({
+				url:url,
+				data:{
+					stream:stream
+				},
+				success:function(responce){					
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Semester" +"</option>";		
+						}
+            string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";							
+            console.info(data[i]['fields']["sem_name"])
+					}
+					$('#sem_out').html(string)
+				}
+			});
+		});
+
+		$('#sem_out').change(function(){
+			var url = $(this).attr('url_str');
+			var sem = $('option:selected', this).attr('key');			
+      
+      $.ajax({
+				url:url,
+				data:{
+					sem:sem
+				},
+				success:function(responce){
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Divition" +"</option>";		
+						}
+						string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+					}
+					$('#div_out').html(string)
+				}
+			});
+		});
+	</script>
+{% endblock js %}
+
+</html>

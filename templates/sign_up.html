@@ -1,0 +1,214 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin - Register</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-dark">
+
+  <div class="container">
+    <div class="card card-register mx-auto my-2">
+      <div class="card-header">
+        Create an Account
+        <!-- <Button class="btn btn-primary float-right">Home</Button> -->
+        <a class="float-right" data-toggle="tooltip" title="Back To Home Page" data-placement="right" href="/">Home</a>
+
+      </div>
+      <div class="card-body">
+        <form action="sign_up" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" id="roll" name="roll" class="form-control" placeholder="Roll_No" data-toggle="tooltip" title="Roll Number">
+                    <label for="roll">Roll No</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" id="enroll" name="enroll" class="form-control" placeholder="Enroll" data-toggle="tooltip" title="Enrollment Number">
+                    <label for="enroll">Enroll</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <input type="text" id="firstName" name="firstname" class="form-control" placeholder="First name" >
+                  <label for="firstName">First name</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <input type="text" id="lastName" name="lastname" class="form-control" placeholder="Last name" >
+                  <label for="lastName">Last name</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" >
+              <label for="inputEmail">Email address</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sel1"> Select Sream:</label>
+                        <select class="form-control" id="strem_in" url_str="sem_ajax" name="stream">
+                          <option selected>Select Sream</option>
+                          {% for s in stream %}
+                            <option data_id="{{s.id}}">{{s.stream_name}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="sel2"> Select Semester:</label>
+                      <select class="form-control" id="sem_out" url_str="div_ajax"  name="sem">
+                        <option selected>Select Semester</option>  
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label for="sel3"> Select Divition:</label>
+                      <select class="form-control" id="div_out" name="div">
+                        <option selected>Select Divition</option>                          
+                      </select>  
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <input type="password" id="inputPassword1" name="password1" class="form-control" placeholder="Password" >
+                  <label for="inputPassword1">Password</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <input type="password" id="inputPassword2" name="password2" class="form-control" placeholder="Confirm password" data-toggle="tooltip" title="Re Enter Password">
+                  <label for="inputPassword2">Confirm password</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- <a class="btn btn-primary btn-block">Register</a> -->
+          <!-- <input class=" btn btn-primary btn-block" data-toggle="tooltip"  title="Hooray!" type="submit"> -->
+          <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Sign_up">Sign_up</button>
+        </form>
+        <br>
+        <div id="alt">
+          {% for m in messages %}
+          <div class="alert alert-danger">
+              <strong>Email!  </strong>{{m}}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer mb-1">
+          <div class="text-center">
+              <a class="d-block small" data-toggle="tooltip" title="Login Page" href="login">Login Page</a>
+              <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="forgot-password.html">Forgot Password?</a>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+</body>
+
+{% block js %}
+	<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+		$('#strem_in').change(function(){
+			var url = $(this).attr('url_str');
+      var stream = $('option:selected', this).attr('data_id');	
+      console.info(stream)
+      console.info(url)		
+			
+			$.ajax({
+				url:url,
+				data:{
+					stream:stream
+				},
+				success:function(responce){					
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Semester" +"</option>";		
+						}
+            string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";							
+            console.info(data[i]['fields']["sem_name"])
+					}
+					$('#sem_out').html(string)
+				}
+			});
+		});
+
+		$('#sem_out').change(function(){
+			var url = $(this).attr('url_str');
+			var sem = $('option:selected', this).attr('key');			
+      
+      $.ajax({
+				url:url,
+				data:{
+					sem:sem
+				},
+				success:function(responce){
+					var data = $.parseJSON(responce);
+					string = "";
+					for(var i=0;i<data.length;i++)
+					{
+						if(i == 0)
+						{
+							string = string +"<option>"+ "Select Divition" +"</option>";		
+						}
+						string = string + "<option key="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+					}
+					$('#div_out').html(string)
+				}
+			});
+		});
+	</script>
+{% endblock js %}
+
+</html>

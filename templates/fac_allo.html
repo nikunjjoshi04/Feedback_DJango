@@ -1,0 +1,631 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>L.J. Institute_Admin</title>
+  <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="adminc">Start Bootstrap</a> -->
+      <a class="navbar-brand" href="adminc">
+        <img src="{% static 'imgs/LJICA.png' %}" height="30"> 
+        L J Institute of Computer Applications
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Faculty Allocations
+      <small>Portal</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="adminc">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Faculty_Allocations</li>
+    </ol>
+
+    <!-- Facultys Allocations -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-chart-area"></i>
+        Facultys Allocations</div>
+      <div class="card-body">
+        <form action="fac_allo" method="POST">
+          {% csrf_token %}        
+          <div class="form-group">
+            <label><b>Select Faculty</b></label>
+            <div class="form-label-group">
+              <select class="form-control" id="faculty" name="user">
+                <option selected>Select Faculty</option>
+                {% for f in fac %}
+                  <option data_id="{{f.id}}" value="{{f.id}}">{{f.first_name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1"><b>Select Streme</b></label>
+                        <select class="form-control" id="strem_in" url_str="/c_admin/sem_ajax" name="stream">
+                          <option selected>Select Sream</option>
+                          {% for s in stream %}
+                            <option data_id="{{s.id}}" value="{{s.id}}">{{s.stream_name}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label for="sel2"><b>Select Semester</b></label>
+                      <select class="form-control" id="sem_out" url_str="/c_admin/div_ajax" url_sub="/c_admin/sub_ajax"  name="sem">
+                        <option selected>Select Semester</option>  
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Divition</b></label>
+                      <select class="form-control" id="div_out" name="div">
+                        <option selected>Select Divition</option>                          
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Designation</b></label>
+                      <select class="form-control" id="des_out" name="post">
+                        <option selected>Select Designation</option>
+                          {% for s in post %}
+                            <option data_id="{{s.id}}" value="{{s.id}}" >{{s.post_name}}</option>
+                          {% endfor %}
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Subject</b></label>
+                      <select class="form-control" id="sub_out" name="sub">
+                        <option selected>Select Divition</option>                          
+                      </select>  
+                  </div>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Allocate Faculty">Allocate Faculty</button>
+          </div>      
+        </form>
+      </div>
+      <div class="card-footer small text-muted">Allocations Of Facultys</div>
+    </div>
+
+    <!-- DataTables Example -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <i class="fas fa-table"></i>
+        Allocated Faculty List
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label><b>Select Faculty</b></label>
+          <div class="form-label-group">
+            <select class="form-control" id="faculty_in_1" url_str="/c_admin/fac_ajax_srch" name="user">
+              <option selected>Select Faculty</option>
+              {% for f in fac %}
+                <option data_id="{{f.id}}" value="{{f.id}}">{{f.first_name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="sel1"><b>Select Streme</b></label>
+                        <select class="form-control" id="strem_in_1" url_str="/c_admin/sem_ajax" url_srch="/c_admin/stream_ajax_srch" name="stream">
+                          <option selected>Select Sream</option>
+                          {% for s in stream %}
+                            <option data_id="{{s.id}}" value="{{s.id}}">{{s.stream_name}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label for="sel2"><b>Select Semester</b></label>
+                      <select class="form-control" id="sem_out_1" url_str="/c_admin/div_ajax" url_sub="/c_admin/sub_ajax" url_srch="/c_admin/sem_ajax_srch"  name="sem">
+                        <option selected>Select Semester</option>  
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Divition</b></label>
+                      <select class="form-control" id="div_out_1" url_srch="/c_admin/div_ajax_srch" name="div">
+                        <option selected>Select Divition</option>                          
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Designation</b></label>
+                      <select class="form-control" id="des_out_1" url_srch="/c_admin/post_ajax_srch" name="post">
+                        <option selected>Select Designation</option>
+                          {% for s in post %}
+                            <option data_id="{{s.id}}" value="{{s.id}}" >{{s.post_name}}</option>
+                          {% endfor %}
+                      </select>  
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="sel3"><b>Select Subject</b></label>
+                      <select class="form-control" id="sub_out_1" url_srch="/c_admin/sub_ajax_srch" name="sub">
+                        <option selected>Select Subject</option>                          
+                      </select>  
+                  </div>
+                </div>
+            </div>
+          </div>
+          <hr>
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Faculty</th>
+                <th>Stream</th>
+                <th>Semester</th>
+                <th>Divition</th>
+                <th>Designation</th>
+                <th>Subject</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <th>Faculty</th>
+                <th>Stream</th>
+                <th>Semester</th>
+                <th>Divition</th>
+                <th>Designation</th>
+                <th>Subject</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
+            <tbody id="out_1">
+            {% for f in fac_m %}
+              <tr>
+                <td>{{f.user}}</td>
+                <!-- <td>{{f.id}}</td> -->
+                <td>{{f.stream}}</td>
+                <td>{{f.sem}}</td>
+                <td>{{f.div}}</td>
+                <td>{{f.post}}</td>
+                <td>{{f.subject}}</td>
+                <td>
+                  <a type="button" class="btn bg-primary" href="/c_admin/delete_fac_allo/{{f.id}}">Delete</a>
+                  <!-- <a type="button" class="btn bg-primary ml-3" href="fac_pro/{{f.id}}">Edit</a> -->
+                </td>
+              </tr>
+
+              <!-- Delete Modal-->
+              <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Delete" below if you are ready to DELETE {{f.id}}.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/c_admin/delete_fac_allo/{{f.id}}">Delete</a>
+                    </div>
+                    </div>
+                </div>
+              </div>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer small text-muted">Allocated Faculty List</div>
+    </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; L J Institute of Computer Applications 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
+
+    // Drop Down for Semesters
+    $('#strem_in').change(function(){
+      var url = $(this).attr('url_str');
+      var stream = $('option:selected', this).attr('data_id');	
+      //console.info(stream)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          stream:stream
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Semester" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";							
+            //console.info(data[i]['pk'])
+          }
+          $('#sem_out').html(string)
+        }
+      });
+    });
+
+    $('#sem_out').change(function(){
+      var url = $(this).attr('url_str');
+      var sem = $('option:selected', this).attr('key');		
+      
+      //console.info(url);
+      //console.info(sem)
+      
+      $.ajax({
+        url:url,
+        data:{
+          sem:sem
+        },
+        success:function(responce){
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Divition" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+          }
+          $('#div_out').html(string)
+        }
+      });
+    });
+    
+    // Drop Down for Subjects
+    $('#sem_out').change(function(){
+      var url = $(this).attr('url_sub');
+      var sem = $('option:selected', this).attr('key');
+      //console.info(url);
+      //console.info(sem);
+      $.ajax({ 
+        url:url,
+        data:{
+          sem:sem
+        },
+        success:function(responce){
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Subject" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sub_name"] +"</option>";
+          }
+          $('#sub_out').html(string)
+        }
+      });
+    });
+
+    //For Sharching
+    //Subheading for Facultys
+    $('#faculty_in_1').change(function(){
+      var url = $(this).attr('url_str');
+      var fac = $('option:selected', this).attr('data_id');	
+      //console.info(fac)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          fac:fac
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+            //console.info(data[i]['pk'],data[i]['fields']["user"])
+            //console.info(string);
+          }
+          $('#out_1').html(string)
+        }
+      });
+    });
+
+    // Drop Down out for Semester 
+    $('#strem_in_1').change(function(){
+      var url = $(this).attr('url_str');
+      var stream = $('option:selected', this).attr('data_id');	
+      //console.info(stream)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          stream:stream
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce); 
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Semester" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sem_name"] +"</option>";							
+            //console.info(data[i]['pk'])
+          }
+          $('#sem_out_1').html(string)
+        }
+      });
+    });
+
+    // Sharching for Stream
+    $('#strem_in_1').change(function(){
+      var url = $(this).attr('url_srch');
+      var stream = $('option:selected', this).attr('data_id');	
+      //console.info(stream)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          stream:stream
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+          }
+          $('#out_1').html(string)
+        }
+      });
+    });
+
+    // Sharching for Designation
+    $('#des_out_1').change(function(){
+      var url = $(this).attr('url_srch');
+      var post = $('option:selected', this).attr('data_id');	
+      //console.info(stream)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          post:post
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+          }
+          $('#out_1').html(string)
+        }
+      });
+    });
+
+    // Sharching for Subjects
+    $('#sub_out_1').change(function(){
+      var url = $(this).attr('url_srch');
+      var subject = $('option:selected', this).attr('key');	
+      //console.info(stream)
+      //console.info(url)		
+      
+      $.ajax({
+        url:url,
+        data:{
+          subject:subject
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+          }
+          $('#out_1').html(string)
+        }
+      });
+    });
+
+    // Drop Down for Divition
+    $('#sem_out_1').change(function(){
+      var url = $(this).attr('url_str');
+      var sem = $('option:selected', this).attr('key');		
+      
+      //console.info(url);
+      //console.info(sem)
+      
+      $.ajax({
+        url:url,
+        data:{
+          sem:sem
+        },
+        success:function(responce){
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Divition" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["div_name"] +"</option>";
+          }
+          $('#div_out_1').html(string)
+        }
+      });
+    });
+
+    // Sharching for Semester
+    $('#strem_in_1').change(function(){
+      var stream = $('option:selected', this).attr('data_id');
+      $('#sem_out_1').change(function(){
+        var sem = $('option:selected', this).attr('key');
+        var url = $(this).attr('url_srch');
+
+        $.ajax({
+          url:url,
+          data:{
+            stream:stream,
+            sem:sem
+          },
+          success:function(responce){					
+            var data = $.parseJSON(responce);
+            string = "";
+            for(var i=0;i<data.length;i++)
+            {
+              string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+            }
+            $('#out_1').html(string)
+          }
+        });
+      });
+    });
+
+// Sharching for Divition
+$('#strem_in_1').change(function(){
+  var stream = $('option:selected', this).attr('data_id');
+  $('#sem_out_1').change(function(){
+    var sem = $('option:selected', this).attr('key');
+    $('#div_out_1').change(function(){
+      var div = $('option:selected', this).attr('key');
+      var url = $(this).attr('url_srch');
+
+      console.info(stream)
+      console.info(sem)
+      console.info(div)
+      console.info(url)
+
+      $.ajax({
+        url:url,
+        data:{
+          stream:stream,
+          sem:sem,
+          div:div
+        },
+        success:function(responce){					
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            string = string + "<tr><td>" + data[i]['fields']["user"] + "</td><td>" + data[i]['fields']["stream"] + "</td><td>" + data[i]['fields']["sem"] + "</td><td>" + data[i]['fields']["div"] + "</td><td>" + data[i]['fields']["post"] + "</td><td>" + data[i]['fields']["subject"] + "</td><td><a type='button' class='btn bg-primary' href='#'>Delete</a></td></tr>";
+          }
+          $('#out_1').html(string)
+        }
+      });
+    });
+  });
+});
+
+    $('#sem_out_1').change(function(){
+      var url = $(this).attr('url_sub');
+      var sem = $('option:selected', this).attr('key');
+      //console.info(url);
+      //console.info(sem);
+      $.ajax({ 
+        url:url,
+        data:{
+          sem:sem
+        },
+        success:function(responce){
+          var data = $.parseJSON(responce);
+          string = "";
+          for(var i=0;i<data.length;i++)
+          {
+            if(i == 0)
+            {
+              string = string +"<option>"+ "Select Subject" +"</option>";		
+            }
+            string = string + "<option key="+ data[i]['pk'] +" value="+ data[i]['pk'] +">" + data[i]['fields']["sub_name"] +"</option>";
+          }
+          $('#sub_out_1').html(string)
+        }
+      });
+    });
+</script>
+</html>

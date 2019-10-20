@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>L.J. Institute</title>
+  <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/modern-business.css' %}" rel="stylesheet">
+
+  <!-- Font-Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'imgs/LJICA.png' %}" height="30"> 
+        L J Institute of Computer Applications
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Blog Home Two
+      <small>Subheading</small>
+    </h1>
+
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="/">Home</a>
+      </li>
+      <li class="breadcrumb-item active">Feedback</li>
+    </ol>
+
+    <!-- Blog Post -->
+    <form action="feedback" method="POST">
+      {% csrf_token %}
+      {% for us in fac %}
+      <div class="card mb-4">
+          <div class="card-header">
+            <div class="row">
+              <h6 class="col-md-6" style="text-transform: capitalize">{{us.user}}<small> {{us.post}}</small></h6>
+              {% for i in user %}
+                {% if us.user == i %}
+                  <p class="col-md-6"><img class="img-circl" height="40" width="40" src="{{ i.img.url }}" alt="img"></p>
+                {% endif %}    
+              {% endfor %}
+            </div>
+          </div>
+        <div class="card-body">
+          {% for q in que %}
+          <div class="row" >
+            <h5 class="card-title col-md-9" style="text-transform: capitalize">{{q.que}}</h5>
+            <a class="btn"><span class="fa fa-star-o fa-lg" id="{{us.pk}}_{{q.que_id}}_1" onclick="add(this,'{{us.pk}}_{{q.que_id}}',1)" val='1' q_id="{{us.pk}}_{{q.que_id}}" data-toggle="tooltip" title="Very Bad.!" aria-hidden="true"></span></a>
+            <a class="btn"><span class="fa fa-star-o fa-lg" id="{{us.pk}}_{{q.que_id}}_2" onclick="add(this,'{{us.pk}}_{{q.que_id}}',2)" val='2' q_id="{{us.pk}}_{{q.que_id}}" data-toggle="tooltip" title="Bad.!" aria-hidden="true"></span></a>
+            <a class="btn"><span class="fa fa-star-o fa-lg" id="{{us.pk}}_{{q.que_id}}_3" onclick="add(this,'{{us.pk}}_{{q.que_id}}',3)" val='3' q_id="{{us.pk}}_{{q.que_id}}" data-toggle="tooltip" title="Ok" aria-hidden="true"></span></a>
+            <a class="btn"><span class="fa fa-star-o fa-lg" id="{{us.pk}}_{{q.que_id}}_4" onclick="add(this,'{{us.pk}}_{{q.que_id}}',4)" val='4' q_id="{{us.pk}}_{{q.que_id}}" data-toggle="tooltip" title="Good" aria-hidden="true"></span></a>
+            <a class="btn"><span class="fa fa-star-o fa-lg" id="{{us.pk}}_{{q.que_id}}_5" onclick="add(this,'{{us.pk}}_{{q.que_id}}',5)" val='5' q_id="{{us.pk}}_{{q.que_id}}" data-toggle="tooltip" title="Very Good" aria-hidden="true"></span></a>
+            <input type="hidden" id="{{us.pk}}_{{q.que_id}}" value="8" name="{{us.pk}}_{{q.que_id}}">
+
+          </div>
+          <hr>
+          {% endfor %}
+          <div class="form-group">
+              <label><b>Messege for Faculty</b></label>
+              <div class="form-label-group">
+                <input type="text" id="msg" name="{{us.pk}}_msg" class="form-control" placeholder="Massege" >
+              </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+          L J Facultys
+        </div>
+      </div>
+      {% endfor %}
+      <hr>
+      <div class="form-group">
+        <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#Submit">Submit Feedback</button>
+      </div>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="Submit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Submit your Feedback ?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Submit" below if you are ready to Submit your Feedback.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Submit">Submit</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center mb-4">
+      <li class="page-item">
+        <a class="page-link" href="#">&larr; Older</a>
+      </li>
+      <li class="page-item disabled">
+        <a class="page-link" href="#">Newer &rarr;</a>
+      </li>
+    </ul>
+
+  </div>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+    $('span').click(function(){
+      var q_id = $(this).attr('q_id');
+      var va = $(this).attr('val');
+      $('[id='+q_id+']').val(va);
+      var imp = $('[id='+q_id+']').val();
+      $('[id='+q_id+'_1]').click(function(){
+      });
+    });
+    function add(ths,ss,sno)
+    {
+      for (var i=1;i<=5;i++)
+      {
+        var cur=document.getElementById(ss+'_'+i)
+        cur.className="fa fa-star-o fa-lg"
+      }
+
+      for (var i=1;i<=sno;i++)
+      {
+        var cur=document.getElementById(ss+"_"+i)
+        if(cur.className=="fa fa-star-o fa-lg")
+        {
+          cur.className="fa fa-star fa-lg"
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DropDownList</title>
+	<script>
+		function random()
+		{
+			var n1 = document.getElementById('n1').value;
+			var n2 = document.getElementById('n2').value;
+			var a=document.getElementById('input').value;
+			var l = "{{stream.stream_name}}";
+			
+			if (a=="India") 
+			{
+				var st=[];
+				"{% for s in stream %}"
+					st.push("{{s.stream_name}}")
+				"{% endfor %}"			
+			}
+			else if (a=="USA") 
+			{
+				var st=["NewYork","Navada","Maxico"]	
+			}
+			else
+			{
+				var st=[]
+			}
+
+			var string="";
+			for (var i=0;i<st.length;i++) 
+			{
+				if(i == 0)
+				{
+					string = string +"<option>"+ "select" +"</option>";		
+				}
+				string = string + "<option>" + st[i] +"</option>";		
+			}
+			document.getElementById('output').innerHTML=string;
+		}
+		function cha()
+		{
+			document.getElementById('output').innerHTML=string;
+		}
+	</script>
+</head>
+<body>
+	<h1>Hello Nikka...!</h1><br>
+	<hr>
+	
+	<h1>{{me.name}}</h1>
+	<h1>{{me.mo}}</h1>
+	{{me.mo}}
+	
+	<hr>
+	<form action="ddl">
+		{% csrf_token %}
+		<input type="text" name="n1" id="n1">
+		<input type="text" name="n2" id="n2">
+		<select id="input" onchange="random()">
+			<option selected>Select Stream</option>
+			{% for s in stream %}
+				<option>{{s.stream_name}}</option>
+			{% endfor %}
+		</select>
+
+		<select id="output">
+			<option selected>Select State</option>
+		</select >
+		<br>
+		<h1></h1>
+	</form>
+
+	
+	
+
+</body>
+</html>
+
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DropDownList</title>
+	<script>
+		function random()
+		{
+			var n1 = document.getElementById('n1').value;
+			var n2 = document.getElementById('n2').value;
+			var a=document.getElementById('input').value;
+			var l = "{{stream.stream_name}}";
+			
+			var st=[];
+				"{% for s in stream %}"
+					st.push("{{s.stream_name}}")
+				"{% endfor %}"
+
+			var string="";
+			for (var i=0;i<st.length;i++) 
+			{
+				if(i == 0)
+				{
+					string = string +"<option>"+ "select" +"</option>";		
+				}
+				string = string + "<option>" + st[i] +"</option>";		
+			}
+			document.getElementById('output').innerHTML=string;
+		}
+		function cha()
+		{
+			document.getElementById('output').innerHTML=string;
+		}
+	</script>
+</head>
+<body>
+	<h1>Hello Nikka...!</h1><br>
+	<hr>
+	
+	<h1>{{me.name}}</h1>
+	<h1>{{me.mo}}</h1>
+	{{me.mo}}
+	
+	<hr>
+	<form action="ddl">
+		{% csrf_token %}
+		<input type="text" name="n1" id="n1">
+		<input type="text" name="n2" id="n2">
+		<select id="input" onchange="random()">
+			<option selected>Select Stream</option>
+			{% for s in stream %}
+				<option>{{s.stream_name}}</option>
+			{% endfor %}
+		</select>
+
+		<select id="output">
+			<option selected>Select State</option>
+		</select >
+		<br>
+		<h1></h1>
+	</form>
+
+	
+	
+
+</body>
+</html>
+
+
+var str="";
+					for (var i=0;i<st.length;i++) 
+					{
+						if(i == 0)
+						{
+							str = str +"<option>"+ "select" +"</option>";		
+						}
+						str = str + "<option>" + st[i] +"</option>";		
+					}
+					$('#output').html(str);
+
+
+
+					<script>
+						$(document).ready(function(){
+							$('#input').change(function(){
+								var url = $('#reg').attr('data-sem-url');
+								var stream = $(this).val();
+								var st=[];
+								//var st = [url,stream];
+								$.ajax({
+									url: url,
+									data:{
+										'stream':stream
+									},
+									success: function(data){
+										"{% for s in sem %}"
+											st.push("{{s.sem_name}}")
+										"{% endfor %}"
+										var string="";
+										for (var i=0;i<st.length;i++) 
+										{
+											if(i == 0)
+											{
+												string = string +"<option>"+ "select" +"</option>";		
+											}
+											string = string + "<option>" + st[i] +"</option>";		
+										}
+			
+										$('#output').html(string);
+									}
+								});
+							});
+						});
+				</script>

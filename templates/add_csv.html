@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>L.J. Institute_Admin</title>
+  <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-dark">
+
+  <div class="container ">
+    <div class="card card-register mx-auto my-5">
+      <div class="card-header">
+        Add CSV File
+        <a class="float-right" data-toggle="tooltip" title="Back To Home Page" data-placement="right" href="adminc">Home</a>
+      </div>
+      <div class="card-body">
+        <form action="add_csv" method="POST" enctype="multipart/form-data">
+           {% csrf_token %}
+          <div class="form-group">
+            <label> Choose CSV File:</label>
+            <div class="form-label-group">
+              <input type="file" id="csv" accept=".csv" value="None.csv" name="csv_file" class="form-control" placeholder="CSV_File" required="required" autofocus="autofocus">
+              <label for="csv">Choose CSV File</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label > Enter Tag:</label>
+            <div class="form-label-group">
+              <input type="text" id="tag" name="tag" accept="image/*" class="form-control" placeholder="CSV_File" required="required">                
+              <label for="tag">Choose CSV File</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-group">
+              <label for="sel1"> Select Flag:</label>
+              <select class="form-control" name="flag">
+                <option>Select Flag</option>
+                <option value="std">For Student</option>
+                <option value="fac">For Faculty</option>
+                <option value="stream">For Stream</option>
+                <option value="sem">For Semester</option>
+                <option value="div">For Divition</option>
+                <option value="sub">For Subject</option>
+                <option value="que">For Questions</option>
+                <option value="post">For Post</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" data-placement="bottom" title="Upload CSV File">Upload CSV File</button>
+        </form>
+      </div>
+      <div class="card-footer">
+          <div class="text-center">
+            <p>Feedback Management</p>              
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();   
+    });
+  </script>
+
+</body>
+
+</html>

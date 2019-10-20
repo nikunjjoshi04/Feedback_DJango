@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Student_Login</title>
+  <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
+
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-dark">
+
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">
+        <a class="float-right" data-toggle="tooltip" title="Back To Home Page" data-placement="right" href="/">Home</a>
+          <ul class="nav nav-tabs card-header-tabs pull-right"  id="myTab" role="tablist">
+            <li class="nav-item">
+             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Student Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Faculty Login</a>
+            </li>
+          </ul>
+      </div>
+      <div class="card-body">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <form action="/accounts/login" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+                  <label for="inputEmail"> Std Email address</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                  <label for="inputPassword">Password</label>
+                </div>
+              </div>
+              <!-- <a class="btn btn-primary btn-block" href="index.html">Login</a> -->
+              <button type="submit" class="btn btn-primary btn-block" data-toggle="tooltip" title="Forgot Password?">Login</button>
+            </form>
+          </div>
+
+          <!-- fac login -->
+
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <form action="fac_login" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+                  <label for="inputEmail">Fac Email address</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-label-group">
+                  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                  <label for="inputPassword">Password</label>
+                </div>
+              </div>
+              <!-- <a class="btn btn-primary btn-block" href="index.html">Login</a> -->
+              <button type="submit" class="btn btn-primary btn-block" data-toggle="tooltip" title="Forgot Password?">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+        {% for m in messages %}
+          <div class="alert alert-danger mx-2">
+            <strong>Email!  </strong>{{m}}
+          </div> 
+        {% endfor %}
+      <div class="card-footer">
+        <div class="text-center">
+          <a class="d-block small" data-toggle="tooltip" title="Sign_up Page" href="sign_up">Create New Account</a>
+          <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="/accounts/password_reset">Forgot Password?</a>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+</body>
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
+</script>
+
+</html>
