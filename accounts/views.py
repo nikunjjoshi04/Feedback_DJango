@@ -79,7 +79,7 @@ def fac_login(request):
             messages.info(request, 'You Are Not Login')
             return redirect('login')
     else:
-        return render(request, 'login.html')
+        return render(request, 'fac_login.html')
 
 
 def login(request):

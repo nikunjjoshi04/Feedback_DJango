@@ -25,34 +25,12 @@
 
   <div class="container">
     <div class="card card-login mx-auto mt-5">
-      <div class="card-header row">
-          Student Login
-        <a class="col-md-6" data-toggle="tooltip" title="Faculty Login" data-placement="top" href="fac_login">Faculty Login</a>  
-        <a class="float-right" data-toggle="tooltip" title="Back To Home Page" data-placement="top" href="/">Home</a>
-      </div>
+        <div class="card-header row">
+          Faculty Login
+          <a class="col-md-6" data-toggle="tooltip" title="Student Login" data-placement="top" href="login">Student Login</a>  
+          <a class="float-right" data-toggle="tooltip" title="Back To Home Page" data-placement="top" href="/">Home</a>
+        </div>
       <div class="card-body">
-            <form action="/accounts/login" method="POST">
-              {% csrf_token %}
-              <div class="form-group">
-                <div class="form-label-group">
-                  <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-                  <label for="inputEmail"> Std Email address</label>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="form-label-group">
-                  <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
-                  <label for="inputPassword">Password</label>
-                </div>
-              </div>
-              <!-- <a class="btn btn-primary btn-block" href="index.html">Login</a> -->
-              <button type="submit" class="btn btn-primary btn-block" data-toggle="tooltip" title="Forgot Password?">Login</button>
-            </form>
-          <!-- </div> -->
-
-          <!-- fac login -->
-
-          <!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <form action="fac_login" method="POST">
               {% csrf_token %}
               <div class="form-group">
@@ -67,11 +45,8 @@
                   <label for="inputPassword">Password</label>
                 </div>
               </div>
-              <a class="btn btn-primary btn-block" href="index.html">Login</a>
               <button type="submit" class="btn btn-primary btn-block" data-toggle="tooltip" title="Forgot Password?">Login</button>
             </form>
-          </div> -->
-        <!-- </div> -->
       </div>
         {% for m in messages %}
           <div class="alert alert-danger mx-2">
@@ -80,8 +55,9 @@
         {% endfor %}
       <div class="card-footer">
         <div class="text-center">
-          <a class="d-block small" data-toggle="tooltip" title="Sign_up Page" href="sign_up">Create New Account</a>
-          <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="/accounts/password_reset">Forgot Password?</a>
+          <P class="text-center">Faculty Login</P>
+          <!-- <a class="d-block small" data-toggle="tooltip" title="Sign_up Page" href="sign_up">Create New Account</a> -->
+          <!-- <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="/accounts/password_reset">Forgot Password?</a> -->
         </div>
       </div>
     </div>    
