@@ -145,7 +145,7 @@ class Csv(models.Model):
     csv_tag = models.CharField(max_length=50)
     csv_flag = models.CharField(max_length=50)
     def __str__(self):
-        return str(self.csv_tag)
+        return str(self.csv_flag)
 
 class Feedback(models.Model):
     std_id = models.ForeignKey(Account, on_delete=models.CASCADE)

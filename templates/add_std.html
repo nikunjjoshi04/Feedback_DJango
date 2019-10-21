@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>L.J. Institute_Admin</title>
+  <title>Add New Students</title>
   <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
 
   <!-- Custom fonts for this template-->
@@ -24,7 +24,7 @@
 
 <body class="bg-dark">
 
-  <div class="container">
+  <div class="container mt-5">
     <div class="card card-register mx-auto my-2">
       <div class="card-header">
         Add New Student
@@ -125,19 +125,18 @@
           <!-- <input class=" btn btn-primary btn-block" data-toggle="tooltip"  title="Hooray!" type="submit"> -->
           <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Add Student">Add Student</button>
         </form>
-        <br>
-        <div id="alt">
-          {% for m in messages %}
-          <div class="alert alert-danger">
-              <strong>Email!  </strong>{{m}}
-            </div>
-          {% endfor %}
-        </div>
       </div>
       <div class="card-footer mb-1">
           <div class="text-center">
-              <a class="d-block small" data-toggle="tooltip" title="Login Page" href="login">Login Page</a>
-              <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="forgot-password.html">Forgot Password?</a>
+              <!-- <a class="d-block small" data-toggle="tooltip" title="Login Page" href="login">Login Page</a>
+              <a class="d-block small" data-toggle="tooltip" title="Forgot Password?" href="forgot-password.html">Forgot Password?</a> -->
+              <div id="alt">
+                {% for m in messages %}
+                <div class="alert alert-danger">
+                    <strong>Oooppss..!  </strong>{{m}}
+                  </div>
+                {% endfor %}
+              </div>
           </div>
       </div>
     </div>

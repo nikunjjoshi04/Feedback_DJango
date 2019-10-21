@@ -10,7 +10,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>L.J. Institute_Admin</title>
+  <title>Add New Facultys</title>
   <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
 
   <!-- Custom fonts for this template-->
@@ -63,6 +63,15 @@
           <!-- <a class="btn btn-primary btn-block" href="login.html">Add Faculty</a> -->
           <button type="submit" class="btn btn-block btn-primary" data-toggle="tooltip" title="Add Faculty">Add Faculty</button>
         </form>
+        <hr>
+        <div id="alt">
+          {% for m in messages %}
+          <div class="alert alert-danger">
+              <strong>Oooppss..!  </strong>{{m}}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
       </div>
     </div>
   </div>

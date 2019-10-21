@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>L.J. Institute</title>
+  <title>Feedback</title>
   <link rel="icon" href="{% static 'imgs/LJICA.png' %}">
 
   <!-- Bootstrap core CSS -->
@@ -73,7 +73,7 @@
       <div class="card mb-4">
           <div class="card-header">
             <div class="row">
-              <h6 class="col-md-6" style="text-transform: capitalize">{{us.user}}<small> {{us.post}}</small></h6>
+              <h6 class="col-md-6" style="text-transform: capitalize">{{us.user}}<small> - {{us.subject}}</small><small> - {{us.post}}</small></h6>
               {% for i in user %}
                 {% if us.user == i %}
                   <p class="col-md-6"><img class="img-circl" height="40" width="40" src="{{ i.img.url }}" alt="img"></p>
@@ -102,8 +102,8 @@
               </div>
             </div>
         </div>
-        <div class="card-footer text-muted">
-          L J Facultys
+        <div class="card-footer text-muted text-center">
+          <strong class="col-md-6">{{us.subject}}</strong><strong class="col-md-6">{{us.post}}</strong>
         </div>
       </div>
       {% endfor %}

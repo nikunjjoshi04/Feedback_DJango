@@ -68,7 +68,7 @@ def fac_allo(request):
     fac_m = Fac_Master.objects.all() 
     if request.method == 'POST':
         if fac_m_allo(request) is False:
-            messages.info(request, "Email Is Taken...!")
+            messages.info(request, "The Subject Is Allredy Allocated...")
             return render(request, 'fac_allo.html', {'stream' : stream, 'post' : post, 'fac_m' : fac_m, 'fac' : fac})            
         else:
             return redirect('fac_allo')
@@ -135,14 +135,18 @@ def delete_que(request, id6):
     return redirect('add_que')
 
 def add_fac(request):
-    if request.method == 'POST': 
+    if request.method == 'POST':
         first_name = request.POST['fac_fname']
         last_name = request.POST['fac_lname']
         mobile = request.POST['fac_mobile']
         email = request.POST['fac_email']
-        user = Account.objects.create(username=first_name, is_staff=True, first_name=first_name, last_name=last_name, mobile=mobile, email=email)
-        user.save()
-        return redirect('add_fac')
+        if Account.objects.filter(email=email,mobile=mobile).exists(): 
+            messages.info(request, "The Faculty Is Allredy Exists...")
+            return redirect('add_fac')
+        else:
+            user = Account.objects.create(username=first_name, is_staff=True, first_name=first_name, last_name=last_name, mobile=mobile, email=email)
+            user.save()
+            return redirect('add_fac')
     else:
         return render(request, "add_fac.html")
 
@@ -151,9 +155,13 @@ def add_que(request):
     if request.method == 'POST': 
         que_id = request.POST['que_id']
         que = request.POST['que']
-        quest = Questions.objects.create(que_id=que_id, que=que)
-        quest.save()
-        return redirect('add_que')
+        if Questions.objects.filter(que_id=que_id).exists():
+            messages.info(request, "Question Id Is Taken...!")
+            return redirect('add_que')
+        else:
+            quest = Questions.objects.create(que_id=que_id, que=que)
+            quest.save()
+            return redirect('add_que')
     else:
         return render(request, "add_que.html", {'ques' : ques})
 
@@ -175,15 +183,23 @@ def add_std(request):
                 messages.info(request, "Email Is Taken...!")
                 return redirect('add_std')
             else:
-                user = Account.objects.create_student(email=email, username=first_name, password=password1, roll=roll, enroll=enroll, first_name=first_name, last_name=last_name)
-                user.save()
-                user = Account.objects.get(email=user.email)
-                streams = Stream.objects.get(stream_name=stream)
-                sems = Sem.objects.get(sem_name=sem)
-                divs = Div.objects.get(div_name=div)
-                std_m = Std_Master.objects.create(user=user, stream=streams, sem=sems, div=divs)
-                std_m.save()
-                return redirect('add_std') 
+                if Account.objects.filter(enroll=enroll).exists():
+                    messages.info(request, "Enroll Is Taken...!")
+                    return redirect('add_std')
+                else:
+                    if Account.objects.filter(roll=roll).exists():
+                        messages.info(request, "Roll No Is Taken...!")
+                        return redirect('add_std')
+                    else:
+                        user = Account.objects.create_student(email=email, username=first_name, password=password1, roll=roll, enroll=enroll, first_name=first_name, last_name=last_name)
+                        user.save()
+                        user = Account.objects.get(email=user.email)
+                        streams = Stream.objects.get(stream_name=stream)
+                        sems = Sem.objects.get(sem_name=sem)
+                        divs = Div.objects.get(div_name=div)
+                        std_m = Std_Master.objects.create(user=user, stream=streams, sem=sems, div=divs)
+                        std_m.save()
+                        return redirect('add_std') 
         else:
             messages.info(request, "Password Is Not Match...!")
             return redirect('add_std')

@@ -121,15 +121,23 @@ def sign_up(request):
                 messages.info(request, "Email Is Taken...!")
                 return redirect('sign_up')
             else:
-                user = Account.objects.create_student(email=email, username=first_name, password=password1, roll=roll, enroll=enroll, first_name=first_name, last_name=last_name)
-                user.save()
-                user = Account.objects.get(email=user.email)
-                streams = Stream.objects.get(stream_name=stream)
-                sems = Sem.objects.get(sem_name=sem)
-                divs = Div.objects.get(div_name=div)
-                std_m = Std_Master.objects.create(user=user, stream=streams, sem=sems, div=divs)
-                std_m.save()
-                return redirect('login') 
+                if Account.objects.filter(enroll=enroll).exists():
+                    messages.info(request, "Enroll Is Taken...!")
+                    return redirect('sign_up')
+                else:
+                    if Account.objects.filter(roll=roll).exists():
+                        messages.info(request, "Roll No Is Taken...!")
+                        return redirect('sign_up')
+                    else:
+                        user = Account.objects.create_student(email=email, username=first_name, password=password1, roll=roll, enroll=enroll, first_name=first_name, last_name=last_name)
+                        user.save()
+                        user = Account.objects.get(email=user.email)
+                        streams = Stream.objects.get(stream_name=stream)
+                        sems = Sem.objects.get(sem_name=sem)
+                        divs = Div.objects.get(div_name=div)
+                        std_m = Std_Master.objects.create(user=user, stream=streams, sem=sems, div=divs)
+                        std_m.save()
+                        return redirect('login') 
         else:
             messages.info(request, "Password Is Not Match...!")
             return redirect('sign_up')
