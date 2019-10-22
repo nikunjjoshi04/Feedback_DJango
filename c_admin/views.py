@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from accounts.models import *
 import json
 import csv
+import numpy as np
 from django.conf import settings
 from django.http import HttpResponse,HttpRequest
 from django.core import serializers
@@ -40,7 +41,25 @@ def csv_up(request):
 
 def admin_feedback(request):
     feed = Feedback.objects.all()
-    return render(request, 'admin_feedback.html', {'feed' : feed})
+    fac = Account.objects.filter(is_staff=True, is_superuser=False)
+    lst0=[]
+    for f in fac:
+        lst=[]
+        st=0
+        i=0
+        for fe in feed:
+            if int(f.id) == int(fe.user_id):
+                i=i+1
+                st = st+ fe.q1+ fe.q2+ fe.q3+ fe.q4+ fe.q5+ fe.q6+ fe.q7+ fe.q8+ fe.q9+ fe.q10+ fe.q11+ fe.q12
+        if st > 0:
+            lst.append(f.first_name)
+            lst.append(st//i)
+            lst0.append(lst)
+    print(lst0)
+    lst1 =json.dumps(lst0)
+    print(lst1)
+    
+    return render(request, 'admin_feedback.html', {'feed' : feed, 'lst1' : lst1})
 
 def add_csv(request):
     if request.method == 'POST' and 'csv_file' in request.FILES:

@@ -42,7 +42,7 @@ def faculty(request):
             lab.append(f.msg)
         else:
             pro.append(f.msg)
-    star = {'1':0, '2':0, '3':0, '4':0, '5':0}
+    # star = {'1':0, '2':0, '3':0, '4':0, '5':0}
     lst1 = []
     lst2 = []
     for f in feed:
@@ -129,6 +129,7 @@ def sign_up(request):
                         messages.info(request, "Roll No Is Taken...!")
                         return redirect('sign_up')
                     else:
+                        # print(roll,enroll,first_name,last_name,email)
                         user = Account.objects.create_student(email=email, username=first_name, password=password1, roll=roll, enroll=enroll, first_name=first_name, last_name=last_name)
                         user.save()
                         user = Account.objects.get(email=user.email)
